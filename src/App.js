@@ -1,23 +1,64 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useRef, useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
+import NavBar from "./components/NavBar";
+import "./App.css";
 
+function DateSelect({ handleChange, dateRef, selectDate, location }) {
+  if (location.pathname == "/graphs") {
+    return <></>;
+  } else {
+    return (
+      <>
+        <span>Select a date </span>
+        <input type="date" onChange={handleChange} ref={dateRef} />
+        <p>Selected date: {selectDate ? selectDate : "None"}</p>
+      </>
+    );
+  }
+}
 function App() {
+  const [respData, setRespData] = useState([]);
+  const [selectDate, setSelectDate] = useState("");
+  const selectDateRef = useRef();
+
+  useEffect(() => {
+    async function getData() {
+      setRespData([]);
+      await fetch(
+        "https://lo-interview.s3.us-west-2.amazonaws.com/health_sessions.json"
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          if (!ignore) {
+            setRespData(data);
+          }
+        });
+    }
+
+    let ignore = false;
+    getData();
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  const handleChange = (e) => setSelectDate(e.target.value);
+  const location = useLocation();
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <NavBar />
       </header>
+      <div id="content">
+        <DateSelect
+          handleChange={handleChange}
+          dateRef={selectDateRef}
+          selectDate={selectDate}
+          location={location}
+        />
+        <Outlet context={[selectDate, respData]} />
+      </div>
     </div>
   );
 }
