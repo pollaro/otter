@@ -23,6 +23,7 @@ export default function Graphs() {
   const [selectDate, respData] = useOutletContext();
   const [selectYear, selectMonth, selectDay] = selectDate.split("-");
 
+  // create bins for times
   const startLabels = {};
   const stopLabels = {};
   for (let hour = 0; hour < 24; hour++) {
@@ -32,6 +33,7 @@ export default function Graphs() {
     }
   }
 
+  // round all times to 10 minutes
   for (const datum of respData) {
     const startTime = new Date(datum.start_time);
     const startHour = startTime.getHours();
@@ -48,8 +50,17 @@ export default function Graphs() {
       stopHour.toString() + ":" + (Math.floor(stopMinute / 10) * 10).toString()
     ] += 1;
   }
+
+  // hack to get :00 instead of :0 on bins
+  let labels = Object.keys(startLabels);
+  for (let x = 0; x < labels.length; x++) {
+    if (labels[x].split(":")[1] === "0") {
+      labels[x] = labels[x].split(":")[0] + ":00";
+    }
+  }
+
   const startDataSet = {
-    labels: Object.keys(startLabels),
+    labels: labels,
     datasets: [
       {
         label: "Start Times",
@@ -64,7 +75,30 @@ export default function Graphs() {
     ],
   };
   const options = {
+    scales: {
+      y: {
+        grid: {
+          display: true,
+        },
+        display: true,
+        title: {
+          display: true,
+          text: "Number of Sessions",
+        },
+      },
+      x: {
+        grid: {
+          display: true,
+        },
+        display: true,
+        title: {
+          display: true,
+          text: "Time (hh:mm)",
+        },
+      },
+    },
     responsive: true,
+    // allows clicking on/off of plots
     legend: {
       // from: https://codepen.io/jordanwillis/pen/BWKKKo
       onClick: (e, item) => {

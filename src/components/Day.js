@@ -5,6 +5,7 @@ export default function Day() {
   const [selectDate, respData] = useOutletContext();
   const [selectYear, selectMonth, selectDay] = selectDate.split("-");
 
+  // filter out specific days
   let subset = respData.filter((datum) => {
     return (
       new Date(datum.start_time).getFullYear() === parseInt(selectYear) &&
@@ -12,6 +13,8 @@ export default function Day() {
       new Date(datum.start_time).getDate() === parseInt(selectDay)
     );
   });
+
+  // calculate averages
   let sumDistance = 0;
   let sumAge = 0;
   let sumLen = 0;
@@ -23,13 +26,19 @@ export default function Day() {
     if (session["birth year"]) {
       sumAge += selectYear - session["birth year"];
     }
-    if (session.start_time && session.stop_time) {
-      sumLen += new Date(session.stop_time) - new Date(session.start_time);
+    if (session.sessionduration) {
+      sumLen += session.sessionduration;
+    } else if (session.start_time && session.stop_time) {
+      sumLen +=
+        (new Date(session.stop_time) - new Date(session.start_time)) /
+        1000 /
+        60;
     }
   }
   const avgDistance = sumDistance / numSessions;
   const avgAge = sumAge / numSessions;
-  const avgLen = sumLen / numSessions / 1000 / 60;
+  const avgLen = sumLen / numSessions;
+
   return (
     <>
       <p>Number of Sessions: {numSessions}</p>

@@ -4,9 +4,9 @@ import NavBar from "./components/NavBar";
 import "./App.css";
 
 function DateSelect({ handleChange, dateRef, selectDate, location }) {
-  if (location.pathname == "/graphs") {
+  if (location.pathname === "/graphs") {
     return <></>;
-  } else {
+  } else if (location.pathname === "/day") {
     return (
       <>
         <span>Select a date </span>
@@ -14,6 +14,8 @@ function DateSelect({ handleChange, dateRef, selectDate, location }) {
         <p>Selected date: {selectDate ? selectDate : "None"}</p>
       </>
     );
+  } else if (location.pathname === "/") {
+    return <p>Please select an option above</p>;
   }
 }
 function App() {
@@ -48,6 +50,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <h1>LittleKoala Health</h1>
         <NavBar />
       </header>
       <div id="content">

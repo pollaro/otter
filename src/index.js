@@ -4,6 +4,7 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
 import Day from "./components/Day";
+import Demographics from "./components/Demographics";
 import Graphs from "./components/Graphs";
 import Error from "./error";
 import reportWebVitals from "./reportWebVitals";
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "graphs",
         element: <Graphs />,
+      },
+      {
+        path: "demographics",
+        element: <Demographics />,
       },
     ],
   },

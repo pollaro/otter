@@ -1,0 +1,25 @@
+.App-header {
+    background-color: #dff5ec;
+    text-align: center;
+    border-bottom: thin solid black;
+    margin-bottom: 1rem;
+    padding-top: 1rem;
+}
+
+#navbar {
+    border-top: thin solid black;
+    text-align: left;
+    padding: 0.5rem 0;
+    background-color: white;
+}
+
+.navbar-link {
+    font-style: normal;
+    text-decoration: none;
+    padding: 1em;
+}
+
+#content {
+    padding-left: 5%;
+    padding-right: 5%;
+}
