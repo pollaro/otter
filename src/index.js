@@ -3,10 +3,13 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
-import Day from "./components/Day";
-import Demographics from "./components/Demographics";
-import Graphs from "./components/Graphs";
 import Error from "./error";
+import BirthYear from "./Pages/BirthYear/BirthYear";
+import Clinic from "./Pages/Clinic/Clinic";
+import DurationPlot from "./Pages/Duration/DurationPlot";
+import Provider from "./Pages/Provider/Provider";
+import Snapshot from "./Pages/Snapshot/Snapshot";
+import StartStop from "./Pages/StartStop/StartStop";
 import reportWebVitals from "./reportWebVitals";
 
 const router = createBrowserRouter([
@@ -16,16 +19,28 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       {
-        path: "day",
-        element: <Day />,
+        path: "/snapshot",
+        element: <Snapshot />,
       },
       {
-        path: "graphs",
-        element: <Graphs />,
+        path: "/startstop",
+        element: <StartStop />,
       },
       {
-        path: "demographics",
-        element: <Demographics />,
+        path: "/duration",
+        element: <DurationPlot />,
+      },
+      {
+        path: "/providers",
+        element: <Provider />,
+      },
+      {
+        path: "/clinic",
+        element: <Clinic />,
+      },
+      {
+        path: "/birthyear",
+        element: <BirthYear />,
       },
     ],
   },
